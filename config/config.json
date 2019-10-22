@@ -1,6 +1,6 @@
 {
   "development": {
-    "database": "message",
+    "database": "projectTwo",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

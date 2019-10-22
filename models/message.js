@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   message.associate = function(models) {
     // associations can be defined here
+    models.message.belongsTo(models.therapist);
+    models.message.belongsTo(models.user);
   };
   return message;
 };

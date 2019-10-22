@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   therapist.associate = function(models) {
     // associations can be defined here
+    models.therapist.hasMany(models.message);
+    models.therapist.belongsToMany(models.user, { through: 'usersTherapists' });
+    
   };
   return therapist;
 };
