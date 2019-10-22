@@ -78,8 +78,30 @@ app.get('/', function(req, res) {
 });
 
 app.get('/profile', isLoggedIn, function(req, res) {
-  res.render('profile');
-});
+  console.log(req.user.name);
+  db.user.findByPk((req.user.id))
+    .then(function(user) {
+      console.log(user);
+      console.log(`🍑`)
+      // user.getName()
+      // console.log(getName);
+      // .then(function(name) {
+      res.render('profile', { user });
+      //   // res.render('profile');
+        });
+    });
+// });
+  // });
+  // db.user.findOne({
+  //   where: { id: req.user.id }
+    
+  // });
+  // 
+// });
+//     });
+// });
+// db.user.findByPk
+
 
 app.get('/location', function(req, res) {
   // var therapistUrl = "https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067"
