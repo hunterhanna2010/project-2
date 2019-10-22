@@ -16,6 +16,9 @@ app.set('view engine', 'ejs');
 app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
+app.use(express.static(__dirname + 'public'));
+app.use(ejsLayouts);
+app.use(helmet());
 app.use(ejsLayouts);
 app.use(helmet());
 
@@ -75,6 +78,22 @@ app.get('/', function(req, res) {
 
 app.get('/profile', isLoggedIn, function(req, res) {
   res.render('profile');
+});
+
+app.get('/location', function(req, res) {
+  res.render('location');
+});
+
+app.get('/specialty', function(req, res) {
+  res.render('specialty');
+});
+
+app.get('/save', function(req, res) {
+  res.render('save');
+});
+
+app.get('/messages', function(req, res) {
+  res.render('messages');
 });
 
 app.use('/auth', require('./controllers/auth'));
