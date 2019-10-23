@@ -11,6 +11,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./models');
 const RateLimit = require('express-rate-limit');
 const axios = require('axios');
+const BASE_BETTER_DOCTOR_URL = 
 
 app.set('view engine', 'ejs');
 
@@ -82,39 +83,28 @@ app.get('/profile', isLoggedIn, function(req, res) {
   db.user.findByPk((req.user.id))
     .then(function(user) {
       console.log(user);
-      console.log(`🍑`)
-      // user.getName()
-      // console.log(getName);
-      // .then(function(name) {
       res.render('profile', { user });
-      //   // res.render('profile');
-        });
     });
-// });
-  // });
-  // db.user.findOne({
-  //   where: { id: req.user.id }
-    
-  // });
-  // 
-// });
-//     });
-// });
-// db.user.findByPk
+});
+
+
+app.get('/results', function(req, res) {
+  var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
+  
+  // fetch(url).then(deets=>{return deets.json()}).then(details=>{console.log("test");console.log(details.data)})';
+  //   // Use request to call the API
+  axios.get(therapistUrl)
+    .then(details => {
+      var locations = details.data.data[0];
+      console.log(locations);
+      //     var therapist = apiResponse.data.location;
+      // res.render('location', { therapist: therapist });
+      res.render('results', { locations });
+    });
+});
 
 
 app.get('/location', function(req, res) {
-  // var therapistUrl = "https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067"
-
-  //   // fetch(url).then(deets=>{return deets.json()}).then(details=>{console.log("test");console.log(details.data)})';
-  //   // Use request to call the API
-  //   axios.get(therapistUrl)
-  //   console.log(therapistUrl);
-  //   .then( details => {
-  //     var therapist = apiResponse.data.location;
-  //     res.render('location', { therapist: therapist });
-  //   })
-  // });
   res.render('location');
 });
 
