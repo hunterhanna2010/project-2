@@ -85,17 +85,15 @@ app.get('/profile', isLoggedIn, function(req, res) {
       res.render('profile', { user });
     });
 });
-
+// location axios call to seattle area
+app.get('/location', function(req, res) {
+  res.render('location');
+});
 
 app.get('/results', function(req, res) {
   var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
     .then(details => {
-      console.log(`Here is the list I want AAAAHAHAHAHAHAHA`);
-      console.log(details.data);
-      var locations = details.data.data;
-      // console.log(locations);
-      // var therapist = apiResponse.data.location;
       let name = details.data.data[0].practices[0].name;
       let locationSlug = details.data.data[0].practices[0].location_slug;
       let bio = details.data.data[0].profile.bio;
@@ -103,35 +101,41 @@ app.get('/results', function(req, res) {
       console.log(locationSlug);
       console.log(bio);
 
-      var returnObj = {
+      let returnObj = {
         name: name,
         location: locationSlug,
         bio: bio
       };
-
-      // res.send(details.data);
-      // res.render('location', { therapist: therapist });
       res.render('results', { returnObj });
     });
 });
 
 
 app.get('/show', function(req, res) {
-  var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?query=mental%20health&location=wa-seattle&user_location=37.773%2C-122.413&skip=0&limit=10&user_key=efda13865301f912b6d55d097c62c067';
+  var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
     .then(details => {
-      var specialty = details.data.data[0];
+      let name = details.data.data[3].practices[0].name;
+      let locationSlug = details.data.data[3].practices[0].location_slug;
+      let bio = details.data.data[3].profile.bio;
+      console.log(name);
+      console.log(locationSlug);
+      console.log(bio);
+      let specialty = details.data.data[3].specialties[0].description;
       console.log(specialty);
-      //     var therapist = apiResponse.data.location;
-      // res.render('location', { therapist: therapist });
-      res.render('show', { specialty });
+
+
+      let returnObj = {
+        name: name,
+        location: locationSlug,
+        bio: bio,
+        specialty: specialty
+      };
+      console.log(returnObj);
+      res.render('show', { returnObj });
     });
 });
 
-
-app.get('/location', function(req, res) {
-  res.render('location');
-});
 
 app.get('/specialty', function(req, res) {
   res.render('specialty');
@@ -146,7 +150,9 @@ app.get('/save', function(req, res) {
 });
 
 app.get('/messages', function(req, res) {
-  res.render('messages');
+  db.message.findAll().then(function(messages) {
+    res.render('messages');
+  });
 });
 
 app.use('/auth', require('./controllers/auth'));

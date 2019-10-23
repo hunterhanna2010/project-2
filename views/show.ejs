@@ -1,4 +1,11 @@
-<h2>Here are your Specialty Requests</h2>
-<% specialty.forEach(function(specialty) { %>
-
-<!-- <p> <%= specialty %> </p> -->
+<h2>Here is your specialty request:</h2>
+    <ul>
+        <p><%= returnObj.name %></p>
+        <p><%= returnObj.location %></p>
+        <p><%= returnObj.bio %></p>
+        <p><%= returnObj.specialty %></p>
+        <form method="POST" action="/messages">
+            <input type="text" name="message" placeholder="...message this therapist">
+            <input type="submit" value="message">
+        </form>
+    </ul>
