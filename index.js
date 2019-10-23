@@ -91,16 +91,33 @@ app.get('/results', function(req, res) {
   var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
     .then(details => {
-      var locations = details.data.data[0];
-      console.log(locations);
-      //     var therapist = apiResponse.data.location;
+      console.log(`Here is the list I want AAAAHAHAHAHAHAHA`);
+      console.log(details.data);
+      var locations = details.data.data;
+      // console.log(locations);
+      // var therapist = apiResponse.data.location;
+      let name = details.data.data[0].practices[0].name;
+      let locationSlug = details.data.data[0].practices[0].location_slug;
+      let bio = details.data.data[0].profile.bio;
+      console.log(name);
+      console.log(locationSlug);
+      console.log(bio);
+
+      var returnObj = {
+        name: name,
+        location: locationSlug,
+        bio: bio
+      };
+
+      // res.send(details.data);
       // res.render('location', { therapist: therapist });
-      res.render('results', { locations });
+      res.render('results', { returnObj });
     });
 });
 
+
 app.get('/show', function(req, res) {
-  var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
+  var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?query=mental%20health&location=wa-seattle&user_location=37.773%2C-122.413&skip=0&limit=10&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
     .then(details => {
       var specialty = details.data.data[0];
@@ -120,8 +137,12 @@ app.get('/specialty', function(req, res) {
   res.render('specialty');
 });
 
+
 app.get('/save', function(req, res) {
-  res.render('save');
+  db.user.findAll()
+    .then(function(savedTherapist) {
+      res.render('save', { user: savedTherapist });
+    });
 });
 
 app.get('/messages', function(req, res) {
