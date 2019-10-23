@@ -9,18 +9,22 @@ body {
     padding: 2em;
 }
 
-  h1, h2, div, input, p {
+h1, h2, div, input, p {
     text-align: center;
     color: white;
-  }
+}
 
-  h1 {
+h1 {
     font-size: 3em;
-  }
+}
 
-  h2 {
+h2 {
     font-size: 2em;
-  }
+}
+
+p {
+    font-size: 20px;
+}
 
 input {
     background-color: rgba(200,0,0,.5);
@@ -30,7 +34,7 @@ input {
     border-radius: 10px;
 }
 
-  a {
+a {
     text-align: center;
     font-size: 24px;
     display: block;
@@ -40,8 +44,8 @@ input {
     padding: 10px;
     border: 3px solid;
     border-radius: 10px;
-  }
+}
 
-  a:hover {
+a:hover {
     background: rgba(200,0,0,.5);
-  } 
+} 
