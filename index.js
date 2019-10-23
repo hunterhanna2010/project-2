@@ -97,17 +97,25 @@ app.get('/results', function(req, res) {
       let name = details.data.data[0].practices[0].name;
       let locationSlug = details.data.data[0].practices[0].location_slug;
       let bio = details.data.data[0].profile.bio;
+      let phone = details.data.data[0].practices[0].phones[0].number;
       console.log(name);
       console.log(locationSlug);
       console.log(bio);
+      console.log(phone);
 
       let returnObj = {
         name: name,
         location: locationSlug,
-        bio: bio
+        bio: bio,
+        phone: phone
       };
       res.render('results', { returnObj });
     });
+});
+
+// specialty axios call adding specialty conditions
+app.get('/specialty', function(req, res) {
+  res.render('specialty');
 });
 
 
@@ -118,9 +126,11 @@ app.get('/show', function(req, res) {
       let name = details.data.data[3].practices[0].name;
       let locationSlug = details.data.data[3].practices[0].location_slug;
       let bio = details.data.data[3].profile.bio;
+      let phone = details.data.data[3].practices[0].phones[0].number;
       console.log(name);
       console.log(locationSlug);
       console.log(bio);
+      console.log(phone);
       let specialty = details.data.data[3].specialties[0].description;
       console.log(specialty);
 
@@ -129,29 +139,30 @@ app.get('/show', function(req, res) {
         name: name,
         location: locationSlug,
         bio: bio,
-        specialty: specialty
+        specialty: specialty,
+        phone: phone
       };
       console.log(returnObj);
       res.render('show', { returnObj });
     });
 });
 
-
-app.get('/specialty', function(req, res) {
-  res.render('specialty');
-});
-
-
-app.get('/save', function(req, res) {
-  db.user.findAll()
-    .then(function(savedTherapist) {
-      res.render('save', { user: savedTherapist });
-    });
-});
+// app.get('/save', function(req, res) {
+//   db.user.findAll()
+//     .then(function(savedTherapist) {
+//       res.render('save', { user: savedTherapist });
+//     });
+// });
 
 app.get('/messages', function(req, res) {
-  db.message.findAll().then(function(messages) {
-    res.render('messages');
+  db.message.create({
+    name: req.body.name,
+    content: req.body.content,
+    userId: req.params.id
+  }).then(function() {
+    res.redirect(`/messages/${req.params.id}`);
+  }).catch(function(err) {
+    res.send(err.message);
   });
 });
 
