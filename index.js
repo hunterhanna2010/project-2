@@ -103,6 +103,8 @@ app.get('/results', function(req, res) {
     });
 });
 
+app.get('/')
+
 
 app.get('/location', function(req, res) {
   res.render('location');
