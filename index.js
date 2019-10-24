@@ -164,7 +164,6 @@ app.post('/allMessages', function(req, res) {
     userId: req.body.userId,
     therapistId: req.body.therapistId
   }).then(function() {
-    // console.log(`${message} was ${created}`);
     res.redirect('/allMessages');
   }).catch(function(err) {
     console.log(err);
@@ -192,11 +191,11 @@ app.put('/allMessages/:id', function(req, res) {
     body: req.body.body
   }, {
     where: {
-    id: req.params.id
+      id: req.params.id
     }
   }).then(function(message) {
     res.redirect('/allMessages');
-  })
+  });
 });
 
 app.delete('/allMessages/:id', function(req, res) {
@@ -205,10 +204,8 @@ app.delete('/allMessages/:id', function(req, res) {
       id: req.params.id
     }
   }).then(function() {
-    console.log(`😜`)
     res.redirect('/allMessages');
   }).catch(function(err) {
-    console.log(`😎`, err);
   });
 });
 
