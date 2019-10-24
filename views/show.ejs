@@ -9,8 +9,8 @@
         <form method="POST" action="/messages">
             <input type="hidden" value="<%= returnObj.id %>" name="therapistId">
             <input type="hidden" value="<%= currentUser.id %>" name="userId">
-            <input type="text" name="title" placeholder="... message title">
-            <input type="text" name="content" placeholder="...message this therapist">
+            <input type="text" value="subject" name="subject" placeholder="... message title">
+            <input type="text" value="body" name="body" placeholder="...message this therapist">
             <input type="submit" value="message">
         </form>
     </ul>

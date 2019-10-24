@@ -116,6 +116,32 @@ app.get('/results', function(req, res) {
     });
 });
 
+// app.get('/results', function(req, res) {
+//   var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=wa-tacoma&user_location=37.773%2C-122.413&skip=0&limit=10&user_key=efda13865301f912b6d55d097c62c067';
+//   axios.get(therapistUrl)
+//     .then(details => {
+//       let id = details.data.data[0].practices[0].uid;
+//       let name = details.data.data[0].practices[0].name;
+//       let locationSlug = details.data.data[0].practices[0].location_slug;
+//       let bio = details.data.data[0].profile.bio;
+//       let phone = details.data.data[0].practices[0].phones[0].number;
+//       console.log(id);
+//       console.log(name);
+//       console.log(locationSlug);
+//       console.log(bio);
+//       console.log(phone);
+
+//       let returnObj = {
+//         id: id,
+//         name: name,
+//         location: locationSlug,
+//         bio: bio,
+//         phone: phone
+//       };
+//       res.render('results', { returnObj });
+//     });
+// });
+
 // specialty axios call adding specialty conditions
 app.get('/specialty', function(req, res) {
   res.render('specialty');
@@ -169,8 +195,9 @@ app.post('/messages', function(req, res) {
     body: req.body.body,
     userId: req.body.userId,
     therapistId: req.body.therapistId
-  }).then(function() {
-    res.render('messages');
+  }).then(function(message) {
+    // console.log(`${message} was ${created}`);
+    res.redirect('/messages', { newMessage });
   }).catch(function(err) {
     console.log(err);
   });
@@ -179,6 +206,7 @@ app.post('/messages', function(req, res) {
 app.get('/allMessages', function(req, res) {
   console.log('find me any messages');
   db.message.findAll().then(function(messages) {
+    console.log(messages);
     res.render('allMessages');
   });
 });
