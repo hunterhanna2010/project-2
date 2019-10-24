@@ -86,11 +86,11 @@ app.get('/profile', isLoggedIn, function(req, res) {
       res.render('profile', { user });
     });
 });
-// location axios call to seattle area
+
 app.get('/location', function(req, res) {
   res.render('location');
 });
-
+// location axios call to seattle area
 app.get('/results', function(req, res) {
   var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
@@ -117,12 +117,12 @@ app.get('/results', function(req, res) {
     });
 });
 
-// specialty axios call adding specialty conditions
+
 app.get('/specialty', function(req, res) {
   res.render('specialty');
 });
 
-
+// specialty axios call adding specialty conditions
 app.get('/show', function(req, res) {
   var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
@@ -154,14 +154,7 @@ app.get('/show', function(req, res) {
     });
 });
 
-// app.get('/save', function(req, res) {
-//   db.user.findAll()
-//     .then(function(savedTherapist) {
-//       res.render('save', { user: savedTherapist });
-//     });
-// });
-
-
+// Create a message post and place it into sequelize messages database 
 app.post('/allMessages', function(req, res) {
   console.log('We are creating a new message to post');
   console.log(req.user.name);
@@ -177,7 +170,7 @@ app.post('/allMessages', function(req, res) {
     console.log(err);
   });
 });
-
+// find all messages in database and place render onto messages page
 app.get('/allMessages', function(req, res) {
   console.log('find me any messages so I can update');
   db.message.findAll().then(function(messages) {
