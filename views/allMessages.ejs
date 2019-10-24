@@ -1,4 +1,15 @@
 <h1> ALL MESSAGES PORTAL</h1>
 <% messages.forEach(message => { %>
-    <p><%= message.subject %></p>
+    <p>Message Title: <%= message.subject %> <br /> Message Content: <%= message.body %></p>
+
+    <form method="POST" action="/allMessages/<%= message.id %>?_method=DELETE">
+        <input type="submit" value="Delete message thread">
+    </form>
+
+    
+<a href="/editMessage/<%= message.id %>">Edit Message</a>
+
 <% }) %>
+
+
+
