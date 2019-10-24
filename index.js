@@ -94,16 +94,19 @@ app.get('/results', function(req, res) {
   var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
     .then(details => {
+      let id = details.data.data[0].practices[0].uid;
       let name = details.data.data[0].practices[0].name;
       let locationSlug = details.data.data[0].practices[0].location_slug;
       let bio = details.data.data[0].profile.bio;
       let phone = details.data.data[0].practices[0].phones[0].number;
+      console.log(id);
       console.log(name);
       console.log(locationSlug);
       console.log(bio);
       console.log(phone);
 
       let returnObj = {
+        id: id,
         name: name,
         location: locationSlug,
         bio: bio,
@@ -123,10 +126,12 @@ app.get('/show', function(req, res) {
   var therapistUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=psychiatrist&location=wa-seattle&user_location=47.5480%2C121.9386&skip=0&limit=20&user_key=efda13865301f912b6d55d097c62c067';
   axios.get(therapistUrl)
     .then(details => {
+      let id = details.data.data[3].practices[0].uid;
       let name = details.data.data[3].practices[0].name;
       let locationSlug = details.data.data[3].practices[0].location_slug;
       let bio = details.data.data[3].profile.bio;
       let phone = details.data.data[3].practices[0].phones[0].number;
+      console.log(id);
       console.log(name);
       console.log(locationSlug);
       console.log(bio);
@@ -136,6 +141,7 @@ app.get('/show', function(req, res) {
 
 
       let returnObj = {
+        id: id,
         name: name,
         location: locationSlug,
         bio: bio,
@@ -154,17 +160,29 @@ app.get('/show', function(req, res) {
 //     });
 // });
 
-app.get('/messages', function(req, res) {
+
+app.post('/messages', function(req, res) {
+  console.log('We are posting a new message');
+  console.log(req.user.name);
   db.message.create({
-    name: req.body.name,
-    content: req.body.content,
-    userId: req.params.id
+    subject: req.body.subject,
+    body: req.body.body,
+    userId: req.body.userId,
+    therapistId: req.body.therapistId
   }).then(function() {
-    res.redirect(`/messages/${req.params.id}`);
+    res.render('messages');
   }).catch(function(err) {
-    res.send(err.message);
+    console.log(err);
   });
 });
+
+app.get('/allMessages', function(req, res) {
+  console.log('find me any messages');
+  db.message.findAll().then(function(messages) {
+    res.render('allMessages');
+  });
+});
+
 
 app.use('/auth', require('./controllers/auth'));
 
