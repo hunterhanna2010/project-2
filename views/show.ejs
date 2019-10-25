@@ -7,6 +7,7 @@
         <p>CONTACT: <%= returnObj.phone %></p>
         
         <form method="POST" action="/allMessages">
+            <label for="message">Send this therapist a message:</label>
             <input type="hidden" value="<%= returnObj.id %>" name="therapistId">
             <input type="hidden" value="<%= currentUser.id %>" name="userId">
             <input type="text" value="subject" name="subject" placeholder="... message title">
